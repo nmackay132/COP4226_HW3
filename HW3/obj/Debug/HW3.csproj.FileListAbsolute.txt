@@ -1,0 +1,9 @@
+c:\users\macka_000\documents\visual studio 2013\Projects\HW3\HW3\bin\Debug\HW3.exe.config
+c:\users\macka_000\documents\visual studio 2013\Projects\HW3\HW3\bin\Debug\HW3.exe
+c:\users\macka_000\documents\visual studio 2013\Projects\HW3\HW3\bin\Debug\HW3.pdb
+c:\users\macka_000\documents\visual studio 2013\Projects\HW3\HW3\obj\Debug\HW3.csprojResolveAssemblyReference.cache
+c:\users\macka_000\documents\visual studio 2013\Projects\HW3\HW3\obj\Debug\HW3.MainForm.resources
+c:\users\macka_000\documents\visual studio 2013\Projects\HW3\HW3\obj\Debug\HW3.Properties.Resources.resources
+c:\users\macka_000\documents\visual studio 2013\Projects\HW3\HW3\obj\Debug\HW3.csproj.GenerateResource.Cache
+c:\users\macka_000\documents\visual studio 2013\Projects\HW3\HW3\obj\Debug\HW3.exe
+c:\users\macka_000\documents\visual studio 2013\Projects\HW3\HW3\obj\Debug\HW3.pdb
