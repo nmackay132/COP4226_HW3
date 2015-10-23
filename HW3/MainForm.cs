@@ -15,14 +15,19 @@ namespace HW3
     {
         public MainForm() {
             InitializeComponent();
+            doc = new Document();
         }
 
+        #region Fields
         private Pen pen;
         private DashStyle dashStyle;
         private float[] dashPattern;
 
         private Brush brush;
+        private Document doc;
+        #endregion
 
+        #region PenTab
         private void pensTabPage_Paint(object sender, PaintEventArgs e) {
             Graphics g = e.Graphics;
             int x = tabControl.Left, y = tabControl.Top;
@@ -41,13 +46,16 @@ namespace HW3
             foreach (ToolStripMenuItem menuItem in this.menuStrip1.Items) {
                 menuItem.Visible = false;
             }
-            if (tabControl.SelectedTab == tabControl.TabPages["pensTabPage"])//your specific tabname
+            if (tabControl.SelectedTab == tabControl.TabPages["pensTabPage"])
             {
                 pensToolStripMenuItem.Visible = true;                
             }
-            else if (tabControl.SelectedTab == tabControl.TabPages["brushesTabPage"])//your specific tabname
+            else if (tabControl.SelectedTab == tabControl.TabPages["brushesTabPage"])
             {
                 brushToolStripMenuItem.Visible = true;                
+            }
+            else if (tabControl.SelectedTab == tabControl.TabPages["shapesAndTextTabPage"]) {
+                shapeToolStripMenuItem.Visible = true;
             }
         }
 
@@ -82,15 +90,123 @@ namespace HW3
             unCheckMenuItems(pensToolStripMenuItem);
             compoundToolStripMenuItem.Checked = true;
         }
+        #endregion
+
+        #region Brush Tab
+        enum BrushType { Solid, Texture, Hatch, LinearGradient, PathGradient };
+
+        BrushType brushType;
 
         private void brushesTabPage_Paint(object sender, PaintEventArgs e) {
             Graphics g = e.Graphics;
             int x = tabControl.Left, y = tabControl.Top;
             int width = this.tabControl.ClientRectangle.Width / 2;
             int height = this.tabControl.ClientRectangle.Height / 2;
-            using (brush = new SolidBrush(Color.Red)) {
-                g.FillRectangle(brush, x, y, width, height);
+
+            switch (brushType)
+            {
+                case BrushType.Solid:
+                    Color myColor = Color.FromArgb(0, 100, 100, 100);
+                    using (brush = new SolidBrush(myColor))
+                    {
+                        g.FillRectangle(brush, x, y, width, height);
+                    }
+                    break;
+                case BrushType.Texture:
+                    //MessageBox.Show(brushType.ToString());
+                    using (brush = new TextureBrush(new Bitmap(Properties.Resources.grunge_texture_18536)))
+                    {
+                        g.FillRectangle(brush, x, y, width, height);
+                    }
+                    break;
+                case BrushType.Hatch:
+                    break;
+                case BrushType.LinearGradient:
+                    System.Drawing.Rectangle rect = new System.Drawing.Rectangle(x, y, width, height);
+                    using (brush = new LinearGradientBrush(rect, Color.Blue, Color.Red, 20.0f)) {
+                        g.FillRectangle(brush, rect);
+                    }
+                    break;
+                case BrushType.PathGradient:
+                    break;
             }
         }
+
+        private void solidToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            brushType = BrushType.Solid;
+        }
+
+        private void textureToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            brushType = BrushType.Texture;
+        }
+
+        private void hatchToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            brushType = BrushType.Hatch;
+        }
+
+        private void linearGradientToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            brushType = BrushType.LinearGradient;
+        }
+
+        private void pathGradientToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            brushType = BrushType.PathGradient;
+        }
+        #endregion
+
+        #region Image Panning Tab
+        private void imagePanningTabPage_Paint(object sender, PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+            int x = 5, y = 50;
+            System.Drawing.Rectangle srcRect = new System.Drawing.Rectangle(x, y, 500, 500);
+            System.Drawing.Rectangle destRect = new System.Drawing.Rectangle(x, y, 500, 500);
+            //g.DrawImage(new Bitmap(Properties.Resources.GameOfThrones), rect);
+            g.DrawImage(new Bitmap(Properties.Resources.GameOfThrones), srcRect, destRect, g.PageUnit);
+            using (pen = new Pen(Color.Red, 5))
+            {
+                g.DrawRectangle(pen, destRect);
+            }
+        }
+        #endregion
+
+        #region Shapes and Text Tab
+        private void MakeRandomInput(out int x, out int y, out int width, out int height, out Color color) {
+            Random rand = new Random();
+            width = rand.Next(50, 300);
+            height = rand.Next(50, 300);
+            x = rand.Next(this.tabControl.ClientRectangle.Left, this.tabControl.ClientRectangle.Right - width);
+            y = rand.Next(this.tabControl.ClientRectangle.Top, this.tabControl.ClientRectangle.Bottom - height);
+            color = Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255));
+        }
+
+        private void rectangleToolStripMenuItem_Click(object sender, EventArgs e) {
+            int x, y, width, height;
+            Color color;
+            MakeRandomInput(out x, out y, out width, out height, out color);
+            Rectangle rect = new Rectangle(x, y, width, height, color);
+            doc.AddShape(rect);
+            this.Invalidate(true);
+        }
+
+        private void ellipseToolStripMenuItem_Click(object sender, EventArgs e) {
+            int x, y, width, height;
+            Color color;
+            MakeRandomInput(out x, out y, out width, out height, out color);
+            Ellipse ellipse = new Ellipse(x, y, width, height, color);
+            doc.AddShape(ellipse);
+            this.Invalidate(true);
+        }
+
+        private void shapesAndTextTabPage_Paint(object sender, PaintEventArgs e) {
+            Graphics g = e.Graphics;
+            doc.DrawShapes(pen, g);
+        }
+        #endregion
+
     }
 }
