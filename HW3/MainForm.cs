@@ -27,7 +27,42 @@ namespace HW3
         private Document doc;
         #endregion
 
+        private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            foreach (ToolStripMenuItem menuItem in this.menuStrip1.Items)
+            {
+                menuItem.Visible = false;
+            }
+            if (tabControl.SelectedTab == tabControl.TabPages["pensTabPage"])
+            {
+                pensToolStripMenuItem.Visible = true;
+            }
+            else if (tabControl.SelectedTab == tabControl.TabPages["brushesTabPage"])
+            {
+                brushToolStripMenuItem.Visible = true;
+            }
+            else if (tabControl.SelectedTab == tabControl.TabPages["shapesAndTextTabPage"])
+            {
+                shapeToolStripMenuItem.Visible = true;
+                zoomToolStripMenuItem.Visible = true;
+            }
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+            tabControl_SelectedIndexChanged(sender, e);
+        }
+
+        private void unCheckMenuItems(ToolStripMenuItem parentMenu)
+        {
+            foreach (ToolStripMenuItem menuItem in parentMenu.DropDownItems)
+            {
+                menuItem.Checked = false;
+            }
+        }
+
         #region PenTab
+
         private void pensTabPage_Paint(object sender, PaintEventArgs e) {
             Graphics g = e.Graphics;
             int x = tabControl.Left, y = tabControl.Top;
@@ -39,33 +74,6 @@ namespace HW3
                     pen.DashPattern = dashPattern;
                 }
                 g.DrawLine(pen, x, y, x + width, y + height);
-            }
-        }
-
-        private void tabControl_SelectedIndexChanged(object sender, EventArgs e) {
-            foreach (ToolStripMenuItem menuItem in this.menuStrip1.Items) {
-                menuItem.Visible = false;
-            }
-            if (tabControl.SelectedTab == tabControl.TabPages["pensTabPage"])
-            {
-                pensToolStripMenuItem.Visible = true;                
-            }
-            else if (tabControl.SelectedTab == tabControl.TabPages["brushesTabPage"])
-            {
-                brushToolStripMenuItem.Visible = true;                
-            }
-            else if (tabControl.SelectedTab == tabControl.TabPages["shapesAndTextTabPage"]) {
-                shapeToolStripMenuItem.Visible = true;
-            }
-        }
-
-        private void MainForm_Load(object sender, EventArgs e) {
-            tabControl_SelectedIndexChanged(sender, e);
-        }
-
-        private void unCheckMenuItems(ToolStripMenuItem parentMenu) {
-            foreach (ToolStripMenuItem menuItem in parentMenu.DropDownItems) {
-                menuItem.Checked = false;
             }
         }
 
@@ -90,6 +98,7 @@ namespace HW3
             unCheckMenuItems(pensToolStripMenuItem);
             compoundToolStripMenuItem.Checked = true;
         }
+
         #endregion
 
         #region Brush Tab
@@ -205,6 +214,8 @@ namespace HW3
 
         #region Shapes and Text Tab
 
+        private float pageScale = 1;
+
         private void MakeRandomInput(out int x, out int y, out int width, out int height, out Color color) {
             Random rand = new Random();
             width = rand.Next(50, 300);
@@ -234,10 +245,54 @@ namespace HW3
 
         private void shapesAndTextTabPage_Paint(object sender, PaintEventArgs e) {
             Graphics g = e.Graphics;
+            g.PageScale = pageScale;
             doc.DrawShapes(pen, g);
         }
 
-        #endregion
+        private void zoom50ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            pageScale = 0.5f;
+            this.Invalidate(true);
+        }
 
+        private void zoom100ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            pageScale = 1;
+            this.Invalidate(true);
+        }
+
+        private void zoom200ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            pageScale = 2;
+            this.Invalidate(true);
+        }
+
+        private void shapesAndTextTabPage_MouseDown(object sender, MouseEventArgs e)
+        {
+            using (Graphics g = this.CreateGraphics())
+            {
+                g.PageUnit = GraphicsUnit.Inch;
+                g.PageScale = 1;
+                PointF[] mouseDownPoint = new PointF[] {new PointF(e.X, e.Y)};
+                g.TransformPoints(CoordinateSpace.Page, CoordinateSpace.Device, mouseDownPoint);
+                Shape shape = doc.Find(mouseDownPoint[0]);
+                if (shape != null)
+                {
+                    
+                }
+            }
+        }
+
+        private void shapesAndTextTabPage_MouseMove(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void shapesAndTextTabPage_MouseLeave(object sender, EventArgs e)
+        {
+
+        }
+
+        #endregion
     }
 }

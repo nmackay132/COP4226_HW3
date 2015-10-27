@@ -33,8 +33,8 @@ namespace HW3
             g.FillRectangle(brush, Location.X, Location.Y, Size.Width, Size.Height);
         }
 
-        public override bool ContainsPoint(Point point) {
-            int x = point.X, y = point.Y;
+        public override bool ContainsPoint(PointF point) {
+            float x = point.X, y = point.Y;
             if (x >= Location.X && (x <= Location.X + Size.Width) && y >= Location.Y && (y <= Location.Y + Size.Height)) {
                 return true;
             }

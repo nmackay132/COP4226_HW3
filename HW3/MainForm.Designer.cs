@@ -30,6 +30,7 @@
             this.pensTabPage = new System.Windows.Forms.TabPage();
             this.brushesTabPage = new System.Windows.Forms.TabPage();
             this.imagePanningTabPage = new System.Windows.Forms.TabPage();
+            this.panningPanel = new System.Windows.Forms.Panel();
             this.shapesAndTextTabPage = new System.Windows.Forms.TabPage();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.pensToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,10 +48,9 @@
             this.ellipseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.customToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.zoomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
-            this.panningPanel = new System.Windows.Forms.Panel();
+            this.zoom50ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.zoom100ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.zoom200ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabControl.SuspendLayout();
             this.imagePanningTabPage.SuspendLayout();
             this.menuStrip1.SuspendLayout();
@@ -59,10 +59,10 @@
             // statusStrip1
             // 
             this.statusStrip1.ImageScalingSize = new System.Drawing.Size(32, 32);
-            this.statusStrip1.Location = new System.Drawing.Point(0, 1047);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 530);
             this.statusStrip1.Name = "statusStrip1";
-            this.statusStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 14, 0);
-            this.statusStrip1.Size = new System.Drawing.Size(1495, 22);
+            this.statusStrip1.Padding = new System.Windows.Forms.Padding(0, 0, 7, 0);
+            this.statusStrip1.Size = new System.Drawing.Size(748, 22);
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
@@ -74,22 +74,22 @@
             this.tabControl.Controls.Add(this.shapesAndTextTabPage);
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.ItemSize = new System.Drawing.Size(115, 18);
-            this.tabControl.Location = new System.Drawing.Point(0, 40);
-            this.tabControl.Margin = new System.Windows.Forms.Padding(4);
+            this.tabControl.Location = new System.Drawing.Point(0, 24);
+            this.tabControl.Margin = new System.Windows.Forms.Padding(2);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(1495, 1007);
+            this.tabControl.Size = new System.Drawing.Size(748, 506);
             this.tabControl.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabControl.TabIndex = 3;
             this.tabControl.SelectedIndexChanged += new System.EventHandler(this.tabControl_SelectedIndexChanged);
             // 
             // pensTabPage
             // 
-            this.pensTabPage.Location = new System.Drawing.Point(8, 26);
-            this.pensTabPage.Margin = new System.Windows.Forms.Padding(4);
+            this.pensTabPage.Location = new System.Drawing.Point(4, 22);
+            this.pensTabPage.Margin = new System.Windows.Forms.Padding(2);
             this.pensTabPage.Name = "pensTabPage";
-            this.pensTabPage.Padding = new System.Windows.Forms.Padding(4);
-            this.pensTabPage.Size = new System.Drawing.Size(1479, 973);
+            this.pensTabPage.Padding = new System.Windows.Forms.Padding(2);
+            this.pensTabPage.Size = new System.Drawing.Size(740, 480);
             this.pensTabPage.TabIndex = 0;
             this.pensTabPage.Text = "Pens";
             this.pensTabPage.UseVisualStyleBackColor = true;
@@ -97,11 +97,11 @@
             // 
             // brushesTabPage
             // 
-            this.brushesTabPage.Location = new System.Drawing.Point(8, 26);
-            this.brushesTabPage.Margin = new System.Windows.Forms.Padding(4);
+            this.brushesTabPage.Location = new System.Drawing.Point(4, 22);
+            this.brushesTabPage.Margin = new System.Windows.Forms.Padding(2);
             this.brushesTabPage.Name = "brushesTabPage";
-            this.brushesTabPage.Padding = new System.Windows.Forms.Padding(4);
-            this.brushesTabPage.Size = new System.Drawing.Size(1479, 973);
+            this.brushesTabPage.Padding = new System.Windows.Forms.Padding(2);
+            this.brushesTabPage.Size = new System.Drawing.Size(740, 480);
             this.brushesTabPage.TabIndex = 1;
             this.brushesTabPage.Text = "Brushes";
             this.brushesTabPage.UseVisualStyleBackColor = true;
@@ -110,25 +110,37 @@
             // imagePanningTabPage
             // 
             this.imagePanningTabPage.Controls.Add(this.panningPanel);
-            this.imagePanningTabPage.Location = new System.Drawing.Point(8, 26);
-            this.imagePanningTabPage.Margin = new System.Windows.Forms.Padding(6);
+            this.imagePanningTabPage.Location = new System.Drawing.Point(4, 22);
             this.imagePanningTabPage.Name = "imagePanningTabPage";
-            this.imagePanningTabPage.Size = new System.Drawing.Size(1479, 973);
+            this.imagePanningTabPage.Size = new System.Drawing.Size(740, 480);
             this.imagePanningTabPage.TabIndex = 2;
             this.imagePanningTabPage.Text = "Image Panning";
             this.imagePanningTabPage.UseVisualStyleBackColor = true;
             this.imagePanningTabPage.Paint += new System.Windows.Forms.PaintEventHandler(this.imagePanningTabPage_Paint);
             // 
+            // panningPanel
+            // 
+            this.panningPanel.Location = new System.Drawing.Point(243, 145);
+            this.panningPanel.Margin = new System.Windows.Forms.Padding(2);
+            this.panningPanel.Name = "panningPanel";
+            this.panningPanel.Size = new System.Drawing.Size(216, 205);
+            this.panningPanel.TabIndex = 0;
+            this.panningPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panningPanel_MouseDown);
+            this.panningPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panningPanel_MouseMove);
+            this.panningPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panningPanel_MouseUp);
+            // 
             // shapesAndTextTabPage
             // 
-            this.shapesAndTextTabPage.Location = new System.Drawing.Point(8, 26);
-            this.shapesAndTextTabPage.Margin = new System.Windows.Forms.Padding(6);
+            this.shapesAndTextTabPage.Location = new System.Drawing.Point(4, 22);
             this.shapesAndTextTabPage.Name = "shapesAndTextTabPage";
-            this.shapesAndTextTabPage.Size = new System.Drawing.Size(1479, 973);
+            this.shapesAndTextTabPage.Size = new System.Drawing.Size(740, 480);
             this.shapesAndTextTabPage.TabIndex = 3;
             this.shapesAndTextTabPage.Text = "Shapes and Text";
             this.shapesAndTextTabPage.UseVisualStyleBackColor = true;
             this.shapesAndTextTabPage.Paint += new System.Windows.Forms.PaintEventHandler(this.shapesAndTextTabPage_Paint);
+            this.shapesAndTextTabPage.MouseDown += new System.Windows.Forms.MouseEventHandler(this.shapesAndTextTabPage_MouseDown);
+            this.shapesAndTextTabPage.MouseLeave += new System.EventHandler(this.shapesAndTextTabPage_MouseLeave);
+            this.shapesAndTextTabPage.MouseMove += new System.Windows.Forms.MouseEventHandler(this.shapesAndTextTabPage_MouseMove);
             // 
             // menuStrip1
             // 
@@ -140,7 +152,8 @@
             this.zoomToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(1495, 40);
+            this.menuStrip1.Padding = new System.Windows.Forms.Padding(3, 1, 0, 1);
+            this.menuStrip1.Size = new System.Drawing.Size(748, 24);
             this.menuStrip1.TabIndex = 4;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -151,27 +164,27 @@
             this.customToolStripMenuItem,
             this.compoundToolStripMenuItem});
             this.pensToolStripMenuItem.Name = "pensToolStripMenuItem";
-            this.pensToolStripMenuItem.Size = new System.Drawing.Size(76, 36);
+            this.pensToolStripMenuItem.Size = new System.Drawing.Size(44, 22);
             this.pensToolStripMenuItem.Text = "Pens";
             // 
             // solidToolStripMenuItem
             // 
             this.solidToolStripMenuItem.Name = "solidToolStripMenuItem";
-            this.solidToolStripMenuItem.Size = new System.Drawing.Size(235, 38);
+            this.solidToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.solidToolStripMenuItem.Text = "Solid";
             this.solidToolStripMenuItem.Click += new System.EventHandler(this.solidToolStripMenuItem_Click);
             // 
             // customToolStripMenuItem
             // 
             this.customToolStripMenuItem.Name = "customToolStripMenuItem";
-            this.customToolStripMenuItem.Size = new System.Drawing.Size(235, 38);
+            this.customToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.customToolStripMenuItem.Text = "Custom";
             this.customToolStripMenuItem.Click += new System.EventHandler(this.customToolStripMenuItem_Click);
             // 
             // compoundToolStripMenuItem
             // 
             this.compoundToolStripMenuItem.Name = "compoundToolStripMenuItem";
-            this.compoundToolStripMenuItem.Size = new System.Drawing.Size(235, 38);
+            this.compoundToolStripMenuItem.Size = new System.Drawing.Size(135, 22);
             this.compoundToolStripMenuItem.Text = "Compound";
             this.compoundToolStripMenuItem.Click += new System.EventHandler(this.compoundToolStripMenuItem_Click);
             // 
@@ -184,41 +197,41 @@
             this.linearGradientToolStripMenuItem,
             this.pathGradientToolStripMenuItem});
             this.brushToolStripMenuItem.Name = "brushToolStripMenuItem";
-            this.brushToolStripMenuItem.Size = new System.Drawing.Size(87, 36);
+            this.brushToolStripMenuItem.Size = new System.Drawing.Size(49, 22);
             this.brushToolStripMenuItem.Text = "Brush";
             // 
             // solidToolStripMenuItem1
             // 
             this.solidToolStripMenuItem1.Name = "solidToolStripMenuItem1";
-            this.solidToolStripMenuItem1.Size = new System.Drawing.Size(277, 38);
+            this.solidToolStripMenuItem1.Size = new System.Drawing.Size(154, 22);
             this.solidToolStripMenuItem1.Text = "Solid";
             this.solidToolStripMenuItem1.Click += new System.EventHandler(this.solidToolStripMenuItem1_Click);
             // 
             // textureToolStripMenuItem
             // 
             this.textureToolStripMenuItem.Name = "textureToolStripMenuItem";
-            this.textureToolStripMenuItem.Size = new System.Drawing.Size(277, 38);
+            this.textureToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.textureToolStripMenuItem.Text = "Texture";
             this.textureToolStripMenuItem.Click += new System.EventHandler(this.textureToolStripMenuItem_Click);
             // 
             // hatchToolStripMenuItem
             // 
             this.hatchToolStripMenuItem.Name = "hatchToolStripMenuItem";
-            this.hatchToolStripMenuItem.Size = new System.Drawing.Size(277, 38);
+            this.hatchToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.hatchToolStripMenuItem.Text = "Hatch";
             this.hatchToolStripMenuItem.Click += new System.EventHandler(this.hatchToolStripMenuItem_Click);
             // 
             // linearGradientToolStripMenuItem
             // 
             this.linearGradientToolStripMenuItem.Name = "linearGradientToolStripMenuItem";
-            this.linearGradientToolStripMenuItem.Size = new System.Drawing.Size(277, 38);
+            this.linearGradientToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.linearGradientToolStripMenuItem.Text = "Linear Gradient";
             this.linearGradientToolStripMenuItem.Click += new System.EventHandler(this.linearGradientToolStripMenuItem_Click);
             // 
             // pathGradientToolStripMenuItem
             // 
             this.pathGradientToolStripMenuItem.Name = "pathGradientToolStripMenuItem";
-            this.pathGradientToolStripMenuItem.Size = new System.Drawing.Size(277, 38);
+            this.pathGradientToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.pathGradientToolStripMenuItem.Text = "Path Gradient";
             this.pathGradientToolStripMenuItem.Click += new System.EventHandler(this.pathGradientToolStripMenuItem_Click);
             // 
@@ -229,76 +242,69 @@
             this.ellipseToolStripMenuItem,
             this.customToolStripMenuItem1});
             this.shapeToolStripMenuItem.Name = "shapeToolStripMenuItem";
-            this.shapeToolStripMenuItem.Size = new System.Drawing.Size(93, 36);
+            this.shapeToolStripMenuItem.Size = new System.Drawing.Size(51, 22);
             this.shapeToolStripMenuItem.Text = "Shape";
             // 
             // rectangleToolStripMenuItem
             // 
             this.rectangleToolStripMenuItem.Name = "rectangleToolStripMenuItem";
-            this.rectangleToolStripMenuItem.Size = new System.Drawing.Size(219, 38);
+            this.rectangleToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
             this.rectangleToolStripMenuItem.Text = "Rectangle";
             this.rectangleToolStripMenuItem.Click += new System.EventHandler(this.rectangleToolStripMenuItem_Click);
             // 
             // ellipseToolStripMenuItem
             // 
             this.ellipseToolStripMenuItem.Name = "ellipseToolStripMenuItem";
-            this.ellipseToolStripMenuItem.Size = new System.Drawing.Size(219, 38);
+            this.ellipseToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
             this.ellipseToolStripMenuItem.Text = "Ellipse";
             this.ellipseToolStripMenuItem.Click += new System.EventHandler(this.ellipseToolStripMenuItem_Click);
             // 
             // customToolStripMenuItem1
             // 
             this.customToolStripMenuItem1.Name = "customToolStripMenuItem1";
-            this.customToolStripMenuItem1.Size = new System.Drawing.Size(219, 38);
+            this.customToolStripMenuItem1.Size = new System.Drawing.Size(126, 22);
             this.customToolStripMenuItem1.Text = "Custom";
             // 
             // zoomToolStripMenuItem
             // 
             this.zoomToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem2,
-            this.toolStripMenuItem3,
-            this.toolStripMenuItem4});
+            this.zoom50ToolStripMenuItem,
+            this.zoom100ToolStripMenuItem,
+            this.zoom200ToolStripMenuItem});
             this.zoomToolStripMenuItem.Name = "zoomToolStripMenuItem";
-            this.zoomToolStripMenuItem.Size = new System.Drawing.Size(90, 36);
+            this.zoomToolStripMenuItem.Size = new System.Drawing.Size(51, 22);
             this.zoomToolStripMenuItem.Text = "Zoom";
             // 
-            // toolStripMenuItem2
+            // zoom50ToolStripMenuItem
             // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(174, 38);
-            this.toolStripMenuItem2.Text = "50%";
+            this.zoom50ToolStripMenuItem.Name = "zoom50ToolStripMenuItem";
+            this.zoom50ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.zoom50ToolStripMenuItem.Text = "50%";
+            this.zoom50ToolStripMenuItem.Click += new System.EventHandler(this.zoom50ToolStripMenuItem_Click);
             // 
-            // toolStripMenuItem3
+            // zoom100ToolStripMenuItem
             // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(174, 38);
-            this.toolStripMenuItem3.Text = "100%";
+            this.zoom100ToolStripMenuItem.Name = "zoom100ToolStripMenuItem";
+            this.zoom100ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.zoom100ToolStripMenuItem.Text = "100%";
+            this.zoom100ToolStripMenuItem.Click += new System.EventHandler(this.zoom100ToolStripMenuItem_Click);
             // 
-            // toolStripMenuItem4
+            // zoom200ToolStripMenuItem
             // 
-            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(174, 38);
-            this.toolStripMenuItem4.Text = "200%";
-            // 
-            // panningPanel
-            // 
-            this.panningPanel.Location = new System.Drawing.Point(486, 278);
-            this.panningPanel.Name = "panningPanel";
-            this.panningPanel.Size = new System.Drawing.Size(432, 394);
-            this.panningPanel.TabIndex = 0;
-            this.panningPanel.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panningPanel_MouseDown);
-            this.panningPanel.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panningPanel_MouseMove);
-            this.panningPanel.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panningPanel_MouseUp);
+            this.zoom200ToolStripMenuItem.Name = "zoom200ToolStripMenuItem";
+            this.zoom200ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.zoom200ToolStripMenuItem.Text = "200%";
+            this.zoom200ToolStripMenuItem.Click += new System.EventHandler(this.zoom200ToolStripMenuItem_Click);
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1495, 1069);
+            this.ClientSize = new System.Drawing.Size(748, 552);
             this.Controls.Add(this.tabControl);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
-            this.Margin = new System.Windows.Forms.Padding(4);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "MainForm";
             this.Text = "Main Form";
             this.Load += new System.EventHandler(this.MainForm_Load);
@@ -335,9 +341,9 @@
         private System.Windows.Forms.ToolStripMenuItem ellipseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem customToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem zoomToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem2;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
-        private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
+        private System.Windows.Forms.ToolStripMenuItem zoom50ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem zoom100ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem zoom200ToolStripMenuItem;
         private System.Windows.Forms.Panel panningPanel;
     }
 }

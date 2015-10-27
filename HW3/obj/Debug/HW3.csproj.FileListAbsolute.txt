@@ -16,3 +16,12 @@ U:\Documents\Visual Studio 2013\Projects\HW3\HW3\obj\Debug\HW3.Properties.Resour
 U:\Documents\Visual Studio 2013\Projects\HW3\HW3\obj\Debug\HW3.csproj.GenerateResource.Cache
 U:\Documents\Visual Studio 2013\Projects\HW3\HW3\bin\Debug\HW3.exe
 U:\Documents\Visual Studio 2013\Projects\HW3\HW3\bin\Debug\HW3.pdb
+C:\Users\nathanm\Documents\FIU\COP4226_HW3\HW3\bin\Debug\HW3.exe.config
+C:\Users\nathanm\Documents\FIU\COP4226_HW3\HW3\obj\Debug\HW3.exe
+C:\Users\nathanm\Documents\FIU\COP4226_HW3\HW3\obj\Debug\HW3.pdb
+C:\Users\nathanm\Documents\FIU\COP4226_HW3\HW3\obj\Debug\HW3.csprojResolveAssemblyReference.cache
+C:\Users\nathanm\Documents\FIU\COP4226_HW3\HW3\obj\Debug\HW3.MainForm.resources
+C:\Users\nathanm\Documents\FIU\COP4226_HW3\HW3\obj\Debug\HW3.Properties.Resources.resources
+C:\Users\nathanm\Documents\FIU\COP4226_HW3\HW3\obj\Debug\HW3.csproj.GenerateResource.Cache
+C:\Users\nathanm\Documents\FIU\COP4226_HW3\HW3\bin\Debug\HW3.exe
+C:\Users\nathanm\Documents\FIU\COP4226_HW3\HW3\bin\Debug\HW3.pdb

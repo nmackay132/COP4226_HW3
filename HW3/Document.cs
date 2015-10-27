@@ -19,7 +19,7 @@ namespace HW3
             shapes.Add(shape);
         }
 
-        public Shape Find(Point point) {
+        public Shape Find(PointF point) {
             foreach (Shape shape in shapes) {
                 if (shape.ContainsPoint(point)) {
                     return shape;
