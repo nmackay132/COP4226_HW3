@@ -159,22 +159,52 @@ namespace HW3
         #endregion
 
         #region Image Panning Tab
+        private int offsetWidth = 450, offsetHeight = 80;
         private void imagePanningTabPage_Paint(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            int x = 5, y = 50;
-            System.Drawing.Rectangle srcRect = new System.Drawing.Rectangle(x, y, 500, 500);
-            System.Drawing.Rectangle destRect = new System.Drawing.Rectangle(x, y, 500, 500);
-            //g.DrawImage(new Bitmap(Properties.Resources.GameOfThrones), rect);
-            g.DrawImage(new Bitmap(Properties.Resources.GameOfThrones), srcRect, destRect, g.PageUnit);
+            System.Drawing.Rectangle destRect = this.panningPanel.ClientRectangle;
+            destRect.Location = this.panningPanel.Location;
+            //MessageBox.Show(destRect.ToString());
+            System.Drawing.Rectangle srcRect = new System.Drawing.Rectangle(offsetWidth, offsetHeight, 1000, 1000);
+            //g.DrawImage(new Bitmap(Properties.Resources.GameOfThrones), rect) ;
+            g.DrawImage(new Bitmap(Properties.Resources.GameOfThrones), destRect, srcRect, g.PageUnit);
             using (pen = new Pen(Color.Red, 5))
             {
                 g.DrawRectangle(pen, destRect);
             }
         }
+
+        private bool mouseIsDown = false;
+        private Point mouseDownLoc;
+
+        private void panningPanel_MouseDown(object sender, MouseEventArgs e) {
+            mouseIsDown = true;
+            mouseDownLoc = e.Location;
+            //MessageBox.Show("Mouse Down " + this.panningPanel.Location.ToString());
+        }
+
+        private void panningPanel_MouseMove(object sender, MouseEventArgs e) {
+            if (mouseIsDown) {
+                int dx = mouseDownLoc.X - e.Location.X;
+                int dy = mouseDownLoc.Y - e.Location.Y;
+                //if (Math.Abs(dx) > 15 || Math.Abs(dy) > 15) {
+                    offsetWidth += dx;
+                    offsetHeight += dy;
+                    panningPanel.Invalidate();
+                    mouseDownLoc = e.Location;
+                //}
+            }
+        }
+
+        private void panningPanel_MouseUp(object sender, MouseEventArgs e) {
+            mouseIsDown = false;
+        }
+
         #endregion
 
         #region Shapes and Text Tab
+
         private void MakeRandomInput(out int x, out int y, out int width, out int height, out Color color) {
             Random rand = new Random();
             width = rand.Next(50, 300);
@@ -206,6 +236,7 @@ namespace HW3
             Graphics g = e.Graphics;
             doc.DrawShapes(pen, g);
         }
+
         #endregion
 
     }
