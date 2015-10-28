@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using System.Drawing.Drawing2D;
+using System.Media;
 
 namespace HW3
 {
@@ -24,18 +26,27 @@ namespace HW3
         public override void Draw(Pen pen, Graphics g) {
             int x = Location.X;
             int y = Location.Y;
+            //PointF[] pointF = { new PointF(Location.X, Location.Y) };
+            //g.TransformPoints(CoordinateSpace.Page, CoordinateSpace.Device, pointF);
             int width = Size.Width;
             int height = Size.Height;
-            g.DrawRectangle(pen, x, y, width, height);
+            //g.DrawRectangle(pen, pointF[0].X, pointF[0].Y, width, height);
+            System.Drawing.Rectangle rect = new System.Drawing.Rectangle(x, y, width, height);
+            string text = "This is a test";
+            //g.DrawString(text, new Font("Arial", 12), pen, );
+            g.DrawRectangle(pen, rect);
         }
 
         public override void Fill(Brush brush, Graphics g) {
             g.FillRectangle(brush, Location.X, Location.Y, Size.Width, Size.Height);
         }
 
-        public override bool ContainsPoint(PointF point) {
+        public override bool ContainsPoint(PointF point, Graphics g) {
             float x = point.X, y = point.Y;
-            if (x >= Location.X && (x <= Location.X + Size.Width) && y >= Location.Y && (y <= Location.Y + Size.Height)) {
+            PointF[] pointF = { new PointF(Location.X, Location.Y) };
+            g.TransformPoints(CoordinateSpace.Page, CoordinateSpace.Device, pointF);
+            if (x >= pointF[0].X && (x <= pointF[0].X + Size.Width) && y >= pointF[0].Y && (y <= pointF[0].Y + Size.Height))
+            {
                 return true;
             }
             return false;

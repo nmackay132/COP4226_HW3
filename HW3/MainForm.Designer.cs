@@ -26,6 +26,7 @@
         /// </summary>
         private void InitializeComponent() {
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
+            this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.pensTabPage = new System.Windows.Forms.TabPage();
             this.brushesTabPage = new System.Windows.Forms.TabPage();
@@ -66,6 +67,14 @@
             this.statusStrip1.TabIndex = 2;
             this.statusStrip1.Text = "statusStrip1";
             // 
+            // toolStrip1
+            // 
+            this.toolStrip1.Location = new System.Drawing.Point(0, 24);
+            this.toolStrip1.Name = "toolStrip1";
+            this.toolStrip1.Size = new System.Drawing.Size(748, 25);
+            this.toolStrip1.TabIndex = 5;
+            this.toolStrip1.Text = "toolStrip1";
+            // 
             // tabControl
             // 
             this.tabControl.Controls.Add(this.pensTabPage);
@@ -74,11 +83,11 @@
             this.tabControl.Controls.Add(this.shapesAndTextTabPage);
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.ItemSize = new System.Drawing.Size(115, 18);
-            this.tabControl.Location = new System.Drawing.Point(0, 24);
+            this.tabControl.Location = new System.Drawing.Point(0, 49);
             this.tabControl.Margin = new System.Windows.Forms.Padding(2);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(748, 506);
+            this.tabControl.Size = new System.Drawing.Size(748, 481);
             this.tabControl.SizeMode = System.Windows.Forms.TabSizeMode.Fixed;
             this.tabControl.TabIndex = 3;
             this.tabControl.SelectedIndexChanged += new System.EventHandler(this.tabControl_SelectedIndexChanged);
@@ -89,7 +98,7 @@
             this.pensTabPage.Margin = new System.Windows.Forms.Padding(2);
             this.pensTabPage.Name = "pensTabPage";
             this.pensTabPage.Padding = new System.Windows.Forms.Padding(2);
-            this.pensTabPage.Size = new System.Drawing.Size(740, 480);
+            this.pensTabPage.Size = new System.Drawing.Size(740, 455);
             this.pensTabPage.TabIndex = 0;
             this.pensTabPage.Text = "Pens";
             this.pensTabPage.UseVisualStyleBackColor = true;
@@ -101,7 +110,7 @@
             this.brushesTabPage.Margin = new System.Windows.Forms.Padding(2);
             this.brushesTabPage.Name = "brushesTabPage";
             this.brushesTabPage.Padding = new System.Windows.Forms.Padding(2);
-            this.brushesTabPage.Size = new System.Drawing.Size(740, 480);
+            this.brushesTabPage.Size = new System.Drawing.Size(740, 455);
             this.brushesTabPage.TabIndex = 1;
             this.brushesTabPage.Text = "Brushes";
             this.brushesTabPage.UseVisualStyleBackColor = true;
@@ -139,8 +148,8 @@
             this.shapesAndTextTabPage.UseVisualStyleBackColor = true;
             this.shapesAndTextTabPage.Paint += new System.Windows.Forms.PaintEventHandler(this.shapesAndTextTabPage_Paint);
             this.shapesAndTextTabPage.MouseDown += new System.Windows.Forms.MouseEventHandler(this.shapesAndTextTabPage_MouseDown);
-            this.shapesAndTextTabPage.MouseLeave += new System.EventHandler(this.shapesAndTextTabPage_MouseLeave);
             this.shapesAndTextTabPage.MouseMove += new System.Windows.Forms.MouseEventHandler(this.shapesAndTextTabPage_MouseMove);
+            this.shapesAndTextTabPage.MouseUp += new System.Windows.Forms.MouseEventHandler(this.shapesAndTextTabPage_MouseUp);
             // 
             // menuStrip1
             // 
@@ -278,21 +287,21 @@
             // zoom50ToolStripMenuItem
             // 
             this.zoom50ToolStripMenuItem.Name = "zoom50ToolStripMenuItem";
-            this.zoom50ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.zoom50ToolStripMenuItem.Size = new System.Drawing.Size(102, 22);
             this.zoom50ToolStripMenuItem.Text = "50%";
             this.zoom50ToolStripMenuItem.Click += new System.EventHandler(this.zoom50ToolStripMenuItem_Click);
             // 
             // zoom100ToolStripMenuItem
             // 
             this.zoom100ToolStripMenuItem.Name = "zoom100ToolStripMenuItem";
-            this.zoom100ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.zoom100ToolStripMenuItem.Size = new System.Drawing.Size(102, 22);
             this.zoom100ToolStripMenuItem.Text = "100%";
             this.zoom100ToolStripMenuItem.Click += new System.EventHandler(this.zoom100ToolStripMenuItem_Click);
             // 
             // zoom200ToolStripMenuItem
             // 
             this.zoom200ToolStripMenuItem.Name = "zoom200ToolStripMenuItem";
-            this.zoom200ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.zoom200ToolStripMenuItem.Size = new System.Drawing.Size(102, 22);
             this.zoom200ToolStripMenuItem.Text = "200%";
             this.zoom200ToolStripMenuItem.Click += new System.EventHandler(this.zoom200ToolStripMenuItem_Click);
             // 
@@ -302,6 +311,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(748, 552);
             this.Controls.Add(this.tabControl);
+            this.Controls.Add(this.toolStrip1);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
             this.Margin = new System.Windows.Forms.Padding(2);
@@ -345,6 +355,7 @@
         private System.Windows.Forms.ToolStripMenuItem zoom100ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem zoom200ToolStripMenuItem;
         private System.Windows.Forms.Panel panningPanel;
+        private System.Windows.Forms.ToolStrip toolStrip1;
     }
 }
 

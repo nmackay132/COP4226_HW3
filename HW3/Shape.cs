@@ -37,6 +37,6 @@ namespace HW3
 
         public abstract void Fill(Brush brush, Graphics g);
 
-        public abstract bool ContainsPoint(PointF point);
+        public abstract bool ContainsPoint(PointF point, Graphics g);
     }
 }

@@ -29,7 +29,7 @@ namespace HW3
             g.FillEllipse(brush, Location.X, Location.Y, Size.Width, Size.Height);
         }
 
-        public override bool ContainsPoint(PointF point) {
+        public override bool ContainsPoint(PointF point, Graphics g) {
             float x = point.X, y = point.Y;
             if (x >= Location.X && (x <= Location.X + Size.Width) && y >= Location.Y && (y <= Location.Y + Size.Height)) {
                 return true;
