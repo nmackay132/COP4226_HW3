@@ -35,5 +35,13 @@ namespace HW3
                 }
             }
         }
+
+        public void FillShapes(Brush brush, Graphics g) {
+            foreach (Shape shape in shapes) {
+                using(brush = new SolidBrush(Color.AliceBlue)){
+                    shape.Fill(brush, g);
+                }
+            }
+        }
     }
 }

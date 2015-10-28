@@ -114,6 +114,7 @@ namespace HW3
         #endregion
 
         #region Brush Tab
+
         enum BrushType { Solid, Texture, Hatch, LinearGradient, PathGradient };
 
         BrushType brushType;
@@ -135,7 +136,6 @@ namespace HW3
                     }
                     break;
                 case BrushType.Texture:
-                    //MessageBox.Show(brushType.ToString());
                     using (brush = new TextureBrush(new Bitmap(Properties.Resources.grunge_texture_18536)))
                     {
                         g.FillRectangle(brush, x, y, width, height);
@@ -195,9 +195,11 @@ namespace HW3
             brushType = BrushType.PathGradient;
             Invalidate(true);
         }
+
         #endregion
 
         #region Image Panning Tab
+
         private int offsetWidth = 450, offsetHeight = 80;
         private void imagePanningTabPage_Paint(object sender, PaintEventArgs e)
         {
@@ -279,7 +281,8 @@ namespace HW3
             Graphics g = e.Graphics;
             //g.PageUnit = GraphicsUnit.Inch;
             g.PageScale = pageScale;
-            doc.DrawShapes(pen, g);
+            //doc.DrawShapes(pen, g);
+            doc.FillShapes(brush, g);
         }
 
         private void zoom50ToolStripMenuItem_Click(object sender, EventArgs e)

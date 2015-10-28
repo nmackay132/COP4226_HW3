@@ -32,13 +32,26 @@ namespace HW3
             int height = Size.Height;
             //g.DrawRectangle(pen, pointF[0].X, pointF[0].Y, width, height);
             System.Drawing.Rectangle rect = new System.Drawing.Rectangle(x, y, width, height);
-            string text = "This is a test";
-            //g.DrawString(text, new Font("Arial", 12), pen, );
             g.DrawRectangle(pen, rect);
+            using (Brush brush = new SolidBrush(Color.Black)) {
+                string text = "This is a test";
+                g.DrawString(text, new Font("Arial", 12), brush, rect);
+            }
         }
 
         public override void Fill(Brush brush, Graphics g) {
-            g.FillRectangle(brush, Location.X, Location.Y, Size.Width, Size.Height);
+            int x = Location.X;
+            int y = Location.Y;
+            int width = Size.Width;
+            int height = Size.Height;
+            System.Drawing.Rectangle rect = new System.Drawing.Rectangle(x, y, width, height);
+            g.FillRectangle(brush, rect);
+            using (StringFormat format = new StringFormat()) {
+                format.Trimming = StringTrimming.EllipsisWord;
+                brush = new SolidBrush(Color.Black);
+                string text = "This is a test";
+                g.DrawString(text, new Font("Arial", 12), brush, rect);
+            }
         }
 
         public override bool ContainsPoint(PointF point, Graphics g) {
