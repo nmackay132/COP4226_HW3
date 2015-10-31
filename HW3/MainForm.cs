@@ -28,7 +28,7 @@ namespace HW3
         private DashStyle dashStyle;
         private float[] dashPattern;
 
-        private Brush brush;
+        private System.Drawing.Brush brush;
         private Document doc;
 
         #endregion
@@ -153,14 +153,22 @@ namespace HW3
                     }
                     break;
                 case BrushType.PathGradient:
+                    //typeToolStripStatusLabel.Text = "Type: PathGradient";
                     Point[] points =
                     {
                         new Point(x + width/2, y), new Point(x, y + height),
                         new Point(x + width, y + height)
                     };
-                    using (brush = new PathGradientBrush(points))
+                    using (GraphicsPath circle = new GraphicsPath())
                     {
-                        g.FillRectangle(brush, rect);
+                        circle.AddEllipse(rect);
+                        using (PathGradientBrush brush2 = new PathGradientBrush(circle))
+                        {
+                            brush2.WrapMode = WrapMode.Tile;
+                            brush2.SurroundColors = new Color[] { Color.Red, Color.Blue, Color.Green };
+                            brush2.CenterColor = Color.Black;
+                            g.FillRectangle(brush2, rect);
+                        }
                     }
                     break;
             }
@@ -201,12 +209,13 @@ namespace HW3
         #region Image Panning Tab
 
         private int offsetWidth = 450, offsetHeight = 80;
-        private void imagePanningTabPage_Paint(object sender, PaintEventArgs e)
-        {
-            Graphics g = e.Graphics;
-            using(BufferedGraphics frame = bufferContext.Allocate(g, tabControl.ClientRectangle))
-            {
+        private BufferedGraphics frame;
 
+        private void displayImage()
+        {
+            Graphics g = CreateGraphics();
+            using (frame = bufferContext.Allocate(g, tabControl.ClientRectangle))
+            {
                 System.Drawing.Rectangle destRect = this.panningPanel.ClientRectangle;
                 destRect.Location = this.panningPanel.Location;
                 System.Drawing.Rectangle srcRect = new System.Drawing.Rectangle(offsetWidth, offsetHeight, 1000, 1000);
@@ -219,25 +228,37 @@ namespace HW3
             }
         }
 
+        private void imagePanningTabPage_Paint(object sender, PaintEventArgs e)
+        {
+            Graphics g = e.Graphics;
+            System.Drawing.Rectangle destRect = this.panningPanel.ClientRectangle;
+            destRect.Location = this.panningPanel.Location;
+            using (pen = new Pen(Color.Red, 5))
+            {
+                g.DrawRectangle(pen, destRect);
+            }
+        }
+
         private bool mouseIsDown = false;
         private Point mouseDownLoc;
 
         private void panningPanel_MouseDown(object sender, MouseEventArgs e) {
+            displayImage();
             mouseIsDown = true;
             mouseDownLoc = e.Location;
+            frame.Render();
         }
 
         private void panningPanel_MouseMove(object sender, MouseEventArgs e) {
             if (mouseIsDown) {
                 int dx = mouseDownLoc.X - e.Location.X;
                 int dy = mouseDownLoc.Y - e.Location.Y;
-                //if (Math.Abs(dx) > 15 || Math.Abs(dy) > 15) {
-                    offsetWidth += dx;
-                    offsetHeight += dy;
-                    panningPanel.Invalidate();
-                    mouseDownLoc = e.Location;
-                //}
+                offsetWidth += dx;
+                offsetHeight += dy;
+                displayImage();
+                mouseDownLoc = e.Location;
             }
+            frame.Render();
         }
 
         private void panningPanel_MouseUp(object sender, MouseEventArgs e) {
@@ -249,6 +270,7 @@ namespace HW3
         #region Shapes and Text Tab
 
         private float pageScale = 1;
+        private Matrix matrix = new Matrix();
 
         private void MakeRandomInput(out int x, out int y, out int width, out int height, out Color color) {
             Random rand = new Random();
@@ -259,12 +281,18 @@ namespace HW3
             color = Color.FromArgb(rand.Next(0, 255), rand.Next(0, 255), rand.Next(0, 255));
         }
 
+        private void updateShapeStatus(string shape)
+        {
+            shapeToolStripStatusLabel1.Text = "Shape: " + shape;
+        }
+
         private void rectangleToolStripMenuItem_Click(object sender, EventArgs e) {
             int x, y, width, height;
             Color color;
             MakeRandomInput(out x, out y, out width, out height, out color);
             Rectangle rect = new Rectangle(x, y, width, height, color);
             doc.AddShape(rect);
+            updateShapeStatus("Rectangle");
             this.Invalidate(true);
         }
 
@@ -274,32 +302,32 @@ namespace HW3
             MakeRandomInput(out x, out y, out width, out height, out color);
             Ellipse ellipse = new Ellipse(x, y, width, height, color);
             doc.AddShape(ellipse);
+            updateShapeStatus("Ellipse");
             this.Invalidate(true);
         }
 
         private void shapesAndTextTabPage_Paint(object sender, PaintEventArgs e) {
             Graphics g = e.Graphics;
-            //g.PageUnit = GraphicsUnit.Inch;
-            g.PageScale = pageScale;
             //doc.DrawShapes(pen, g);
+            g.Transform = matrix;
             doc.FillShapes(brush, g);
         }
 
         private void zoom50ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            pageScale = 0.5f;
+            matrix.Scale(0.5f, 0.5f);
             this.Invalidate(true);
         }
 
         private void zoom100ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            pageScale = 1;
+            matrix.Scale(1, 1);
             this.Invalidate(true);
         }
 
         private void zoom200ToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            pageScale = 2;
+            matrix.Scale(2, 2);
             this.Invalidate(true);
         }
 
@@ -315,11 +343,12 @@ namespace HW3
                 //g.PageUnit = GraphicsUnit.Inch;
                 g.PageScale = pageScale;
                 PointF[] pointF = {new PointF(e.X, e.Y)};
-                g.TransformPoints(CoordinateSpace.Page, CoordinateSpace.Device, pointF);
+                g.TransformPoints(CoordinateSpace.World, CoordinateSpace.Device, pointF);
                 Shape shape = doc.Find(pointF[0], g);
                 if (shape != null)
                 {
                     mouseDownPoint = e.Location;
+                    //mouseDownPoint = pointF[0];
                     isMouseDown = true;
                     movingShape = shape;
                     shapeStartLoc = shape.Location;
@@ -329,13 +358,30 @@ namespace HW3
 
         private void moveShape(MouseEventArgs e)
         {
-            Point newLoc = new Point();
-            int dx = e.X - mouseDownPoint.X;
-            int dy = e.Y - mouseDownPoint.Y;
-            newLoc.X = shapeStartLoc.X + dx;
-            newLoc.Y = shapeStartLoc.Y + dy;
-            movingShape.Location = newLoc;
-            Invalidate(true);
+            using (Graphics g = CreateGraphics())
+            {
+                g.PageScale = pageScale;
+                PointF[] pointF = { new PointF(e.X, e.Y) };
+                g.TransformPoints(CoordinateSpace.World, CoordinateSpace.Device, pointF);
+                Point newLoc = new Point();
+                int dx = e.X - mouseDownPoint.X;
+                int dy = e.Y - mouseDownPoint.Y;
+                newLoc.X = shapeStartLoc.X + dx;
+                newLoc.Y = shapeStartLoc.Y + dy;
+                movingShape.Location = newLoc;
+                Invalidate(true);
+
+                //g.PageScale = pageScale;
+                //PointF[] pointF = { new PointF(e.X, e.Y) };
+                //g.TransformPoints(CoordinateSpace.World, CoordinateSpace.Device, pointF);
+                //PointF newLoc = new PointF();
+                //float dx = pointF[0].X - mouseDownPoint.X;
+                //float dy = pointF[0].Y - mouseDownPoint.Y;
+                //newLoc.X = shapeStartLoc.X + dx;
+                //newLoc.Y = shapeStartLoc.Y + dy;
+                //movingShape.Location = newLoc;
+                //Invalidate(true);
+            }
         }
 
         private void shapesAndTextTabPage_MouseMove(object sender, MouseEventArgs e)
@@ -344,6 +390,7 @@ namespace HW3
             {
                 moveShape(e);
             }
+            locToolStripStatusLabel1.Text = "Mouse Location: " + e.X + ", " + e.Y;
         }
 
         private void shapesAndTextTabPage_MouseUp(object sender, MouseEventArgs e)

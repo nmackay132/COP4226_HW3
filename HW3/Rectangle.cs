@@ -34,7 +34,7 @@ namespace HW3
             System.Drawing.Rectangle rect = new System.Drawing.Rectangle(x, y, width, height);
             g.DrawRectangle(pen, rect);
             using (Brush brush = new SolidBrush(Color.Black)) {
-                string text = "This is a test";
+                string text = "This is a test of a long string blah blah blah blah blah";
                 g.DrawString(text, new Font("Arial", 12), brush, rect);
             }
         }
@@ -49,8 +49,8 @@ namespace HW3
             using (StringFormat format = new StringFormat()) {
                 format.Trimming = StringTrimming.EllipsisWord;
                 brush = new SolidBrush(Color.Black);
-                string text = "This is a test";
-                g.DrawString(text, new Font("Arial", 12), brush, rect);
+                string text = "This is a test of a long string blah blah blah blah blah";
+                g.DrawString(text, new Font("Arial", 20), brush, rect, format);
             }
         }
 
