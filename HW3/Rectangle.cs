@@ -33,9 +33,12 @@ namespace HW3
             //g.DrawRectangle(pen, pointF[0].X, pointF[0].Y, width, height);
             System.Drawing.Rectangle rect = new System.Drawing.Rectangle(x, y, width, height);
             g.DrawRectangle(pen, rect);
-            using (Brush brush = new SolidBrush(Color.Black)) {
+            using (Brush brush = new SolidBrush(Color.Black))
+            using(StringFormat format = new StringFormat()){
+                format.Alignment = StringAlignment.Near;
+                format.LineAlignment = StringAlignment.Far;
                 string text = "This is a test of a long string blah blah blah blah blah";
-                g.DrawString(text, new Font("Arial", 12), brush, rect);
+                g.DrawString(text, new Font("Arial", 12), brush, rect, format);
             }
         }
 
@@ -48,16 +51,19 @@ namespace HW3
             g.FillRectangle(brush, rect);
             using (StringFormat format = new StringFormat()) {
                 format.Trimming = StringTrimming.EllipsisWord;
+                format.Alignment = StringAlignment.Near;
+                format.LineAlignment = StringAlignment.Far;
+                format.FormatFlags = StringFormatFlags.LineLimit;
                 brush = new SolidBrush(Color.Black);
-                string text = "This is a test of a long string blah blah blah blah blah";
-                g.DrawString(text, new Font("Arial", 20), brush, rect, format);
+                string text = "This is a test of a long string blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah blah";
+                g.DrawString(text, new Font("Arial", 12), brush, rect, format);
             }
         }
 
         public override bool ContainsPoint(PointF point, Graphics g) {
             float x = point.X, y = point.Y;
             PointF[] pointF = { new PointF(Location.X, Location.Y) };
-            g.TransformPoints(CoordinateSpace.Page, CoordinateSpace.Device, pointF);
+            g.TransformPoints(CoordinateSpace.World, CoordinateSpace.Device, pointF);
             if (x >= pointF[0].X && (x <= pointF[0].X + Size.Width) && y >= pointF[0].Y && (y <= pointF[0].Y + Size.Height))
             {
                 return true;
