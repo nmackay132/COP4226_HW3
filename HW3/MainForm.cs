@@ -129,7 +129,7 @@ namespace HW3
             switch (brushType)
             {
                 case BrushType.Solid:
-                    Color myColor = Color.FromArgb(200, 100, 100, 5);
+                    Color myColor = Color.FromArgb(25, 100, 100, 150);
                     using (brush = new SolidBrush(myColor))
                     {
                         g.FillRectangle(brush, x, y, width, height);
@@ -148,21 +148,26 @@ namespace HW3
                     }
                     break;
                 case BrushType.LinearGradient:
-                    using (brush = new LinearGradientBrush(rect, Color.Red, Color.Blue, LinearGradientMode.Horizontal)) {
+                    using (LinearGradientBrush brush = new LinearGradientBrush(rect, Color.Red, Color.Blue, 45.0f)) {
+                        ColorBlend blend = new ColorBlend();
+                        blend.Colors = new [] {Color.Red, Color.Blue, Color.Green};
+                        blend.Positions = new[] {0.0f, 0.3f, 1.0f};
+                        brush.InterpolationColors = blend;
                         g.FillRectangle(brush, rect);
                     }
                     break;
                 case BrushType.PathGradient:
                     //typeToolStripStatusLabel.Text = "Type: PathGradient";
-                    Point[] points =
+                    PointF[] points =
                     {
-                        new Point(x + width/2, y), new Point(x, y + height),
-                        new Point(x + width, y + height)
+                        new PointF(x + width/2, y), new PointF(x, y + height),
+                        new PointF(x + width, y + height),
+                        new PointF(x, y + 10),
                     };
                     using (GraphicsPath circle = new GraphicsPath())
                     {
                         circle.AddEllipse(rect);
-                        using (PathGradientBrush brush2 = new PathGradientBrush(circle))
+                        using (PathGradientBrush brush2 = new PathGradientBrush(points))
                         {
                             brush2.WrapMode = WrapMode.Tile;
                             brush2.SurroundColors = new Color[] { Color.Red, Color.Blue, Color.Green };
@@ -216,14 +221,11 @@ namespace HW3
             Graphics g = CreateGraphics();
             using (frame = bufferContext.Allocate(g, tabControl.ClientRectangle))
             {
+                //frame = bufferContext.Allocate(g, tabControl.ClientRectangle);
                 System.Drawing.Rectangle destRect = this.panningPanel.ClientRectangle;
                 destRect.Location = this.panningPanel.Location;
                 System.Drawing.Rectangle srcRect = new System.Drawing.Rectangle(offsetWidth, offsetHeight, 1000, 1000);
-                frame.Graphics.DrawImage(new Bitmap(Properties.Resources.GameOfThrones), destRect, srcRect, g.PageUnit);
-                using (pen = new Pen(Color.Red, 5))
-                {
-                    frame.Graphics.DrawRectangle(pen, destRect);
-                }
+                frame.Graphics.DrawImage(Properties.Resources.GameOfThrones, destRect, srcRect, g.PageUnit);
                 frame.Render();
             }
         }
@@ -246,7 +248,7 @@ namespace HW3
             displayImage();
             mouseIsDown = true;
             mouseDownLoc = e.Location;
-            frame.Render();
+            //frame.Render();
         }
 
         private void panningPanel_MouseMove(object sender, MouseEventArgs e) {
@@ -258,11 +260,12 @@ namespace HW3
                 displayImage();
                 mouseDownLoc = e.Location;
             }
-            frame.Render();
+            //frame.Render();
         }
 
         private void panningPanel_MouseUp(object sender, MouseEventArgs e) {
             mouseIsDown = false;
+            //bufferContext.Dispose();
         }
 
         #endregion
@@ -331,7 +334,7 @@ namespace HW3
             this.Invalidate(true);
         }
 
-        private Point mouseDownPoint;
+        private PointF mouseDownPoint;
         private bool isMouseDown;
         private Shape movingShape;
         private Point shapeStartLoc;
@@ -340,15 +343,14 @@ namespace HW3
         {
             using (Graphics g = CreateGraphics())
             {
-                //g.PageUnit = GraphicsUnit.Inch;
                 g.PageScale = pageScale;
                 PointF[] pointF = {new PointF(e.X, e.Y)};
                 g.TransformPoints(CoordinateSpace.World, CoordinateSpace.Device, pointF);
                 Shape shape = doc.Find(pointF[0], g);
                 if (shape != null)
                 {
-                    mouseDownPoint = e.Location;
-                    //mouseDownPoint = pointF[0];
+                    //mouseDownPoint = e.Location;
+                    mouseDownPoint = pointF[0];
                     isMouseDown = true;
                     movingShape = shape;
                     shapeStartLoc = shape.Location;
@@ -360,27 +362,31 @@ namespace HW3
         {
             using (Graphics g = CreateGraphics())
             {
-                g.PageScale = pageScale;
-                PointF[] pointF = { new PointF(e.X, e.Y) };
-                g.TransformPoints(CoordinateSpace.World, CoordinateSpace.Device, pointF);
-                Point newLoc = new Point();
-                int dx = e.X - mouseDownPoint.X;
-                int dy = e.Y - mouseDownPoint.Y;
-                newLoc.X = shapeStartLoc.X + dx;
-                newLoc.Y = shapeStartLoc.Y + dy;
-                movingShape.Location = newLoc;
-                Invalidate(true);
-
                 //g.PageScale = pageScale;
-                //PointF[] pointF = { new PointF(e.X, e.Y) };
-                //g.TransformPoints(CoordinateSpace.World, CoordinateSpace.Device, pointF);
-                //PointF newLoc = new PointF();
-                //float dx = pointF[0].X - mouseDownPoint.X;
-                //float dy = pointF[0].Y - mouseDownPoint.Y;
+                //PointF[] ePointF = { new PointF(e.X, e.Y) };
+                //g.TransformPoints(CoordinateSpace.World, CoordinateSpace.Device, ePointF);
+                //Point newLoc = new Point();
+                //int dx = e.X - mouseDownPoint.X;
+                //int dy = e.Y - mouseDownPoint.Y;
                 //newLoc.X = shapeStartLoc.X + dx;
                 //newLoc.Y = shapeStartLoc.Y + dy;
                 //movingShape.Location = newLoc;
                 //Invalidate(true);
+
+                g.PageScale = pageScale;
+                PointF[] eF = { new PointF(e.X, e.Y) };
+                PointF[] shapeStartLocF = { new PointF(shapeStartLoc.X, shapeStartLoc.Y) };
+                g.TransformPoints(CoordinateSpace.World, CoordinateSpace.Device, eF);
+                PointF newLocF = new PointF();
+                float dx = eF[0].X - mouseDownPoint.X;
+                float dy = eF[0].Y - mouseDownPoint.Y;
+                newLocF.X = shapeStartLocF[0].X + dx;
+                newLocF.Y = shapeStartLocF[0].Y + dy;
+                //locToolStripStatusLabel1.Text = "Mouse Location: " + eF[0].X + ", " + eF[0].Y;
+                g.TransformPoints(CoordinateSpace.Device, CoordinateSpace.World, new PointF[] {newLocF});
+                Point newLoc = new Point((int) newLocF.X, (int) newLocF.Y);
+                movingShape.Location = newLoc;
+                Invalidate(true);
             }
         }
 
@@ -390,7 +396,7 @@ namespace HW3
             {
                 moveShape(e);
             }
-            locToolStripStatusLabel1.Text = "Mouse Location: " + e.X + ", " + e.Y;
+            //locToolStripStatusLabel1.Text = "Mouse Location: " + e.X + ", " + e.Y;
         }
 
         private void shapesAndTextTabPage_MouseUp(object sender, MouseEventArgs e)
